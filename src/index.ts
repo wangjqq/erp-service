@@ -37,7 +37,7 @@ function initializeAppDataSource() {
       console.log(error)
       setTimeout(() => {
         initializeAppDataSource()
-      }, 1000)
+      }, 10000)
     })
 }
 initializeAppDataSource()
