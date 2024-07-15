@@ -1,20 +1,43 @@
-import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import { AppDataSource } from './data-source'
+import express, { Request, Response } from 'express'
+import cors from 'cors'
 
-AppDataSource.initialize().then(async () => {
+function initializeAppDataSource() {
+  return AppDataSource.initialize()
+    .then(async () => {
+      const app = express()
+      app.use(cors())
+      app.use(express.json())
+      app.use(express.urlencoded({ extended: true })) // 解析表单数据
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+      let server
 
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
+      function startServer() {
+        server = app.listen(3000, () => {
+          console.log('Server is running on port 3000')
+        })
+      }
 
-    console.log("Here you can setup and run express / fastify / any other framework.")
-
-}).catch(error => console.log(error))
+      function stopServer() {
+        if (server) {
+          server.close(() => {
+            console.log('Server is stopped')
+          })
+        }
+      }
+      // 启动Express服务器
+      startServer()
+      // Handle uncaught exceptions
+      process.on('uncaughtException', (err) => {
+        stopServer()
+        startServer()
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+      setTimeout(() => {
+        initializeAppDataSource()
+      }, 1000)
+    })
+}
+initializeAppDataSource()
