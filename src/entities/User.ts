@@ -5,7 +5,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, Updat
 @Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn({ comment: '用户id' })
-  user_id: number
+  id: number
 
   @Column({ type: 'varchar', length: 255, comment: '用户名' })
   username: string
