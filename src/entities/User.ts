@@ -13,8 +13,11 @@ export class User {
   @Column({ type: 'varchar', length: 255, comment: '哈希化密码' })
   password_hash: string
 
-  @Column({ type: 'varchar', length: 255, comment: '用户邮箱' })
+  @Column({ type: 'varchar', length: 255, comment: '邮箱' })
   email: string
+
+  @Column({ type: 'varchar', length: 255, comment: '电话' })
+  phone: string
 
   @Column({ nullable: true, comment: '最后登录日期' }) // 允许为空，因为第一次登录时可能为 null
   lastLoginAt: Date

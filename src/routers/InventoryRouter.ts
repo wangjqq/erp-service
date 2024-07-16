@@ -1,8 +1,8 @@
-import express from "express";
-import { addProduct } from "../controller/InventoryController";
+import express from 'express'
+import { addProduct } from '../controllers/InventoryController'
 
-const InventoryRouter = express.Router();
+const InventoryRouter = express.Router()
 
-InventoryRouter.post("/addProduct", addProduct);
+InventoryRouter.post('/addProduct', addProduct)
 
-export default InventoryRouter;
+export default InventoryRouter
