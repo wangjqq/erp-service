@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import InventoryRouter from './routers/InventoryRouter'
 import UserRouter from './routers/UserRouter'
+import HardwareCategoryRouter from './routers/HardwareCategoryRouter'
 
 function initializeAppDataSource() {
   return AppDataSource.initialize()
@@ -14,6 +15,7 @@ function initializeAppDataSource() {
 
       app.use('/inventory', InventoryRouter)
       app.use('/user', UserRouter)
+      app.use('/hardwareCategory', HardwareCategoryRouter)
 
       let server
 

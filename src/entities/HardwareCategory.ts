@@ -21,7 +21,7 @@ export class HardwareCategory {
   @TreeChildren({ cascade: true }) // 定义子节点
   children: HardwareCategory[]
 
-  @TreeParent({ onDelete: 'SET NULL' }) // 定义父节点
+  @TreeParent({ onDelete: 'CASCADE' }) // 定义父节点
   parent: HardwareCategory
 
   @CreateDateColumn({ precision: 0, type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(0)', comment: '创建日期' })

@@ -4,21 +4,15 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
+  ManyToOne,
 } from "typeorm";
+import { HardwareCategory } from "./HardwareCategory";
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn({ comment: "产品id" })
   id: number;
-
-  @Column({ type: "varchar", length: 255, comment: "大类" })
-  primary_category: string;
-
-  @Column({ type: "varchar", length: 255, comment: "中类" })
-  secondary_category: string;
-
-  @Column({ type: "varchar", length: 255, comment: "小类" })
-  tertiary_category: string;
 
   @Column({ type: "text", comment: "产品描述" })
   description: string;
@@ -31,6 +25,12 @@ export class Product {
 
   @Column({ type: "decimal", precision: 10, scale: 2, comment: "平均预计售价" })
   average_anticipated_price: number;
+
+  @ManyToOne(() => HardwareCategory, (category) => category.id, {
+    onDelete: "SET NULL",
+  })
+  @JoinColumn()
+  hardwareCategory: HardwareCategory;
 
   @CreateDateColumn({
     precision: 0,
