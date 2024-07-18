@@ -44,7 +44,7 @@ export class HardwareCategoryController {
       res.status(400).json({ message: error.message });
     }
   }
-  
+
   async getAllCategories(req: Request, res: Response): Promise<void> {
     const categories = await this.hardwareCategoryService.getAllCategories();
     res.json(categories);
@@ -54,11 +54,12 @@ export class HardwareCategoryController {
     const { id } = req.params;
 
     try {
-      const category = await this.hardwareCategoryService.getCategoryById(parseInt(id));
+      const category = await this.hardwareCategoryService.getCategoryById(
+        parseInt(id)
+      );
       res.json(category);
     } catch (error) {
-      res.status(404).json({ message: '分类不存在' });
+      res.status(404).json({ message: "分类不存在" });
     }
   }
-  
 }
