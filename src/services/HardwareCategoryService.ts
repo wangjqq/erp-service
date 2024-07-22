@@ -1,70 +1,63 @@
-import { AppDataSource } from "../data-source";
-import { HardwareCategory } from "../entities/HardwareCategory";
+import { AppDataSource } from '../data-source'
+import { HardwareCategory } from '../entities/HardwareCategory'
+import { sortTreeById } from '../utils'
 
 export class HardwareCategoryService {
-  private readonly hardwareCategoryRepository =
-    AppDataSource.getRepository(HardwareCategory);
+  private readonly hardwareCategoryRepository = AppDataSource.getRepository(HardwareCategory)
 
-  async createCategory(
-    name: string,
-    parentId?: number
-  ): Promise<HardwareCategory> {
-    const newCategory = new HardwareCategory();
-    newCategory.name = name;
+  async createCategory(name: string, parentId?: number): Promise<HardwareCategory> {
+    const newCategory = new HardwareCategory()
+    newCategory.name = name
 
     if (parentId) {
       const parentCategory = await this.hardwareCategoryRepository.findOne({
         where: { id: parentId },
-      });
-      newCategory.parent = parentCategory;
+      })
+      newCategory.parent = parentCategory
     }
 
-    return await this.hardwareCategoryRepository.save(newCategory);
+    return await this.hardwareCategoryRepository.save(newCategory)
   }
 
-  async updateCategory(
-    categoryId: number,
-    name: string,
-    parentId?: number
-  ): Promise<HardwareCategory> {
+  async updateCategory(categoryId: number, name: string, parentId?: number): Promise<HardwareCategory> {
     let category = await this.hardwareCategoryRepository.findOne({
       where: { id: categoryId },
-    });
+    })
 
     if (!category) {
-      throw new Error("找不到指定的分类");
+      throw new Error('找不到指定的分类')
     }
 
-    category.name = name;
+    category.name = name
 
     if (parentId) {
       const parentCategory = await this.hardwareCategoryRepository.findOne({
         where: { id: parentId },
-      });
-      category.parent = parentCategory;
+      })
+      category.parent = parentCategory
     } else {
-      category.parent = null;
+      category.parent = null
     }
 
-    return await this.hardwareCategoryRepository.save(category);
+    return await this.hardwareCategoryRepository.save(category)
   }
 
-  async deleteCategory(categoryId: number): Promise<void> {
-    const category = await this.hardwareCategoryRepository.findOne({where:{id:categoryId}});
-  
+  async deleteCategory(categoryId: number): Promise<HardwareCategory> {
+    const category = await this.hardwareCategoryRepository.findOne({ where: { id: categoryId } })
+
     if (!category) {
-      throw new Error('找不到指定的分类');
+      throw new Error('找不到指定的分类')
     }
-  
-    await this.hardwareCategoryRepository.remove(category);
+
+    return await this.hardwareCategoryRepository.remove(category)
   }
 
   async getAllCategories(): Promise<HardwareCategory[]> {
-    return await this.hardwareCategoryRepository.find();
+    const treeCategories = await AppDataSource.manager.getTreeRepository(HardwareCategory).findTrees()
+    return sortTreeById(treeCategories)
   }
 
   async getCategoryById(categoryId: number): Promise<HardwareCategory> {
-    return await this.hardwareCategoryRepository.findOne({where:{id:categoryId}});
+    return await this.hardwareCategoryRepository.findOne({ where: { id: categoryId } })
   }
-  
 }

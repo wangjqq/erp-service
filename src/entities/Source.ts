@@ -1,54 +1,51 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Source {
-  @PrimaryGeneratedColumn({ comment: "渠道id" })
-  id: number;
+  @PrimaryGeneratedColumn({ comment: '渠道id' })
+  id: number
 
-  @Column({ type: "varchar", length: 255, comment: "名称" })
-  name: string;
+  @Column({ type: 'varchar', length: 255, comment: '名称' })
+  name: string
 
-  @Column({ type: "varchar", length: 255, comment: "地址" })
-  address: string;
+  @Column({ type: 'simple-array', comment: '地址', nullable: true })
+  address: string[]
 
-  @Column({ type: "varchar", length: 20, comment: "电话" })
-  phone: string;
+  @Column({ type: 'varchar', length: 255, comment: '详细地址', nullable: true })
+  addressDetail: string
 
-  @Column({ type: "varchar", length: 255, comment: "主营" })
-  mainBusiness: string;
+  @Column({ type: 'varchar', length: 20, comment: '电话', nullable: true })
+  phone: string
 
-  @Column({ type: "enum", enum: ["低", "中", "高"], comment: "价格优势" })
-  priceAdvantage: "低" | "中" | "高";
+  @Column({ type: 'varchar', length: 255, comment: '主营', nullable: true })
+  mainBusiness: string
+
+  @Column({ type: 'enum', enum: ['低', '中', '高'], comment: '价格优势' })
+  priceAdvantage: '低' | '中' | '高'
 
   @Column({
-    type: "simple-array",
-    comment: "类型 (可多选: 进货渠道/出货渠道)",
+    type: 'simple-array',
+    comment: '类型 (可多选: 进货渠道/出货渠道)',
   })
-  types: string[];
+  types: string[]
 
-  @Column({ type: "int", default: 0, comment: "交易次数" })
-  transactionCount: number;
+  @Column({ type: 'int', default: 0, comment: '交易次数' })
+  transactionCount: number
 
   @CreateDateColumn({
     precision: 0,
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(0)",
-    comment: "创建日期",
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(0)',
+    comment: '创建日期',
   })
-  created_at: Date;
+  created_at: Date
 
   @UpdateDateColumn({
     precision: 0,
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(0)",
-    onUpdate: "CURRENT_TIMESTAMP(0)",
-    comment: "更新日期",
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(0)',
+    onUpdate: 'CURRENT_TIMESTAMP(0)',
+    comment: '更新日期',
   })
-  updated_at: Date;
+  updated_at: Date
 }

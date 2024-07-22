@@ -20,3 +20,12 @@ export function convertToTreeData(flatData: any[]): any[] {
 
   return roots
 }
+
+export const sortTreeById = (nodes: any): any[] => {
+  return nodes
+    .sort((a, b) => a.id - b.id) // 按照 ID 排序
+    .map((node) => ({
+      ...node,
+      children: node.children ? sortTreeById(node.children) : [], // 递归排序子节点
+    }))
+}
