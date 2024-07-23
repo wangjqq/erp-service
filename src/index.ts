@@ -5,6 +5,7 @@ import InventoryRouter from './routers/InventoryRouter'
 import UserRouter from './routers/UserRouter'
 import HardwareCategoryRouter from './routers/HardwareCategoryRouter'
 import SourceRouter from './routers/SourceRouter'
+import productRouter from './routers/productRouter'
 
 function initializeAppDataSource() {
   return AppDataSource.initialize()
@@ -18,6 +19,7 @@ function initializeAppDataSource() {
       app.use('/user', UserRouter)
       app.use('/hardwareCategory', HardwareCategoryRouter)
       app.use('/source', SourceRouter)
+      app.use('/product', productRouter)
 
       let server
 
