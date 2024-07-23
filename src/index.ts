@@ -1,11 +1,11 @@
 import { AppDataSource } from './data-source'
 import express from 'express'
 import cors from 'cors'
-import InventoryRouter from './routers/InventoryRouter'
 import UserRouter from './routers/UserRouter'
 import HardwareCategoryRouter from './routers/HardwareCategoryRouter'
 import SourceRouter from './routers/SourceRouter'
 import productRouter from './routers/productRouter'
+import InventoryRecordRoutes from './routers/InventoryRecordRoutes'
 
 function initializeAppDataSource() {
   return AppDataSource.initialize()
@@ -15,7 +15,7 @@ function initializeAppDataSource() {
       app.use(express.json())
       app.use(express.urlencoded({ extended: true })) // 解析表单数据
 
-      app.use('/inventory', InventoryRouter)
+      app.use('/inventoryRecord', InventoryRecordRoutes)
       app.use('/user', UserRouter)
       app.use('/hardwareCategory', HardwareCategoryRouter)
       app.use('/source', SourceRouter)
